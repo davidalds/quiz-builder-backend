@@ -45,6 +45,13 @@ export class QuizzesController {
     return this.quizzesService.findOne({ id })
   }
 
+  @Get('user-quizzes/:id')
+  async findOneByUser(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Quiz | null> {
+    return this.quizzesService.findOneByUser({ id })
+  }
+
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,

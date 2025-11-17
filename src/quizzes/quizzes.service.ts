@@ -85,6 +85,26 @@ export class QuizzesService {
     })
   }
 
+  async findOneByUser(
+    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+  ): Promise<Quiz | null> {
+    return await this.prismaService.quiz.findUnique({
+      where: quizWhereUniqueInput,
+      include: {
+        questions: {
+          select: {
+            id: true,
+            text: true,
+            answers: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        },
+      },
+    })
+  }
+
   async create(data: CreateQuizDto): Promise<Quiz> {
     return await this.prismaService.quiz.create({
       data: {
