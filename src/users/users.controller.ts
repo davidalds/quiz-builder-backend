@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from 'generated/prisma'
+import { Public } from 'src/auth/metadatas'
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +26,7 @@ export class UsersController {
     return this.UsersService.findOne({ id })
   }
 
+  @Public()
   @Post()
   async create(@Body() data: CreateUserDto): Promise<User> {
     return this.UsersService.create(data)

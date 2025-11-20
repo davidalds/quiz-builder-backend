@@ -49,13 +49,20 @@ export class QuizzesService {
     }
   }
 
-  async findByUser(offset: number, limit: number) {
+  async findByUser(offset: number, limit: number, userId: number) {
     const res = await this.prismaService.quiz.findMany({
       skip: offset,
       take: limit,
+      where: {
+        userId,
+      },
     })
 
-    const total = await this.prismaService.quiz.count()
+    const total = await this.prismaService.quiz.count({
+      where: {
+        userId,
+      },
+    })
 
     return {
       total,
@@ -105,10 +112,11 @@ export class QuizzesService {
     })
   }
 
-  async create(data: CreateQuizDto): Promise<Quiz> {
+  async create(data: CreateQuizDto, userId: number): Promise<Quiz> {
     return await this.prismaService.quiz.create({
       data: {
         ...data,
+        userId,
         questions: {
           create: data.questions.map((q) => ({
             text: q.text,
