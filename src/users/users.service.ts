@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { PrismaService } from 'src/prisma.service'
 import { User, Prisma } from 'generated/prisma'
 import * as bcrypt from 'bcrypt'
@@ -20,8 +24,17 @@ export class UsersService {
   }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
+    const user = await this.findOne({ email: data.email })
+
+    if (user) {
+      throw new ForbiddenException(
+        'Já existe um usuário cadastrado com esse e-mail',
+      )
+    }
+
     const salt = await bcrypt.genSalt()
     const hash = await bcrypt.hash(data.password, salt)
+
     return await this.prismaService.user.create({
       data: { ...data, password: hash },
     })
