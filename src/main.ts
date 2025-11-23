@@ -11,6 +11,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   )
+  console.log("DOMAINS RAW =", process.env.DOMAINS);
+  console.log("DOMAINS SPLIT =", process.env.DOMAINS?.split(','));
   app.enableCors({
     origin: process.env.DOMAINS?.split(','),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -18,3 +20,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 8080)
 }
 bootstrap()
+
