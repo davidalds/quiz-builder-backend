@@ -17,7 +17,7 @@ async function bootstrap() {
   )
   console.log('CORS Allowed Origins:', allowedOrigins)
   app.enableCors({
-    origin: allowedOrigins,
+    origin: "*",
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
