@@ -28,24 +28,32 @@ export class QuizzesService {
 
     const totalQuizzes = await this.prismaService.quiz.count()
 
-    const olderQuizId = await this.prismaService.quiz
-      .findMany({
-        take: 1,
-        orderBy: {
-          createdAt: 'asc',
-        },
-      })
-      .then((oq) => oq[0].id)
+    if (totalQuizzes) {
+      const olderQuizId = await this.prismaService.quiz
+        .findMany({
+          take: 1,
+          orderBy: {
+            createdAt: 'asc',
+          },
+        })
+        .then((oq) => oq[0].id)
 
-    const lastQuizId = quizzes[quizzes.length - 1].id
+      const lastQuizId = quizzes[quizzes.length - 1].id
 
-    // set undefined for front-end logic hide the "load more" button
-    const nextCursor = lastQuizId === olderQuizId ? undefined : lastQuizId
+      // set undefined for front-end logic hide the "load more" button
+      const nextCursor = lastQuizId === olderQuizId ? undefined : lastQuizId
+
+      return {
+        total: totalQuizzes,
+        data: quizzes,
+        nextCursor,
+      }
+    }
 
     return {
       total: totalQuizzes,
       data: quizzes,
-      nextCursor,
+      nextCursor: undefined,
     }
   }
 
@@ -257,7 +265,6 @@ export class QuizzesService {
     data: {
       score: number
       quizId: number
-      userId: number
       guestId: string
     },
   ): Promise<Result> {
@@ -297,7 +304,6 @@ export class QuizzesService {
     const result = await this.prismaService.result.findFirst({
       where: {
         quizId: quiz.id,
-        userId: 4,
         guestId: data.guestId,
       },
     })
@@ -308,7 +314,6 @@ export class QuizzesService {
         {
           score: quizScore,
           quizId: quiz.id,
-          userId: 4,
           guestId: data.guestId,
         },
       )
@@ -318,7 +323,6 @@ export class QuizzesService {
       data: {
         score: quizScore,
         quizId: quiz.id,
-        userId: 4,
         guestId: data.guestId,
       },
     })

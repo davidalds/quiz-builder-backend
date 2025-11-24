@@ -28,8 +28,8 @@ model Quiz {
   id          Int        @id @default(autoincrement())
   title       String
   description String
-  User        User?      @relation(fields: [userId], references: [id])
-  userId      Int?
+  User        User       @relation(fields: [userId], references: [id])
+  userId      Int
   questions   Question[]
   Result      Result[]
   createdAt   DateTime   @default(now())
@@ -39,27 +39,27 @@ model Quiz {
 model Question {
   id        Int      @id @default(autoincrement())
   text      String
-  Quiz      Quiz?    @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId    Int?
+  Quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    Int
   answers   Answer[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Answer {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   text       String
   isCorrect  Boolean
-  Question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId Int?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  Question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Result {
   id        Int      @id @default(autoincrement())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int?
   Quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId    Int
   guestId   String?
