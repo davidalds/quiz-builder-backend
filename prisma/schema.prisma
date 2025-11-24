@@ -63,6 +63,7 @@ model Result {
   userId    Int
   Quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId    Int
+  guestId   String?
   score     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

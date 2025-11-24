@@ -100,7 +100,10 @@ export class QuizzesController {
 
   @Public()
   @Get(':id/answers')
-  async getQuizScore(@Param('id', ParseIntPipe) id: number): Promise<Result> {
-    return this.quizzesService.getQuizScore({ id })
+  async getQuizScore(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('guestId') guestId: string,
+  ): Promise<Result> {
+    return this.quizzesService.getQuizScore({ id }, guestId)
   }
 }

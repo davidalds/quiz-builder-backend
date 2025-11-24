@@ -3,6 +3,7 @@ import {
   ArrayMinSize,
   IsArray,
   IsNumber,
+  IsString,
   ValidateNested,
 } from 'class-validator'
 
@@ -19,4 +20,6 @@ export class CreateQuizScoreDto {
   @ValidateNested({ each: true, message: 'Valor deve ser válido.' })
   @Type(() => userAnswer)
   userAnswers: userAnswer[]
+  @IsString({ message: 'Valor deve ser uma string' })
+  guestId: string
 }

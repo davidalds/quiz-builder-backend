@@ -76,6 +76,12 @@ export class QuizzesService {
     return await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
       include: {
+        User: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         questions: {
           select: {
             id: true,
@@ -207,6 +213,7 @@ export class QuizzesService {
 
   async getQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+    guestId: string,
   ): Promise<Result> {
     const quiz = await this.findOne(quizWhereUniqueInput)
 
@@ -215,7 +222,7 @@ export class QuizzesService {
     }
 
     const result = await this.prismaService.result.findFirst({
-      where: { quizId: quiz.id },
+      where: { quizId: quiz.id, guestId: guestId },
     })
 
     if (!result) {
@@ -251,6 +258,7 @@ export class QuizzesService {
       score: number
       quizId: number
       userId: number
+      guestId: string
     },
   ): Promise<Result> {
     return await this.prismaService.result.update({
@@ -290,6 +298,7 @@ export class QuizzesService {
       where: {
         quizId: quiz.id,
         userId: 4,
+        guestId: data.guestId,
       },
     })
 
@@ -300,6 +309,7 @@ export class QuizzesService {
           score: quizScore,
           quizId: quiz.id,
           userId: 4,
+          guestId: data.guestId,
         },
       )
     }
@@ -309,6 +319,7 @@ export class QuizzesService {
         score: quizScore,
         quizId: quiz.id,
         userId: 4,
+        guestId: data.guestId,
       },
     })
   }

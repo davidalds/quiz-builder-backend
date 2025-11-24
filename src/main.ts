@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common'
 const allowedOrigins = (process.env.DOMAINS || '')
   .split(',')
   .filter((origin) => origin.trim() !== '')
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.useGlobalPipes(
@@ -15,12 +15,11 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   )
-  console.log('CORS Allowed Origins:', allowedOrigins)
   app.enableCors({
-    origin: "*",
+    origin: allowedOrigins,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
-  await app.listen(port, '0.0.0.0');
+  await app.listen(port, '0.0.0.0')
 }
 bootstrap()
