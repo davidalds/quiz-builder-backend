@@ -231,6 +231,21 @@ export class QuizzesService {
 
     const result = await this.prismaService.result.findFirst({
       where: { quizId: quiz.id, guestId: guestId },
+      include: {
+        Quiz: {
+          select: {
+            questions: {
+              select: {
+                id: true,
+                text: true,
+                answers: {
+                  where: { isCorrect: true },
+                },
+              },
+            },
+          },
+        },
+      },
     })
 
     if (!result) {
