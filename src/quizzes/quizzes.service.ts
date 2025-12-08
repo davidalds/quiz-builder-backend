@@ -158,50 +158,100 @@ export class QuizzesService {
           id: true,
         },
       })
-      .then((res) => res.map(({ id }) => id))
+      .then((res) => res.map((q) => q.id))
 
-    const questionsToBeDeleted = quizQuestionsIds
-      .filter((qId) => data.questions.find((q) => q.id === qId) === undefined)
-      .map((qId) => ({ id: qId }))
+    const existingIds = new Set(quizQuestionsIds)
 
-    const questionsWithId = data.questions.filter(
-      (qwi) => qwi.id && quizQuestionsIds.indexOf(qwi.id) >= 0,
-    )
+    const questionsWithId: {
+      where: { id: number }
+      data: {
+        text: string
+        answers: {
+          deleteMany: any
+          createMany: {
+            data: {
+              text: string
+              isCorrect: boolean
+            }[]
+          }
+        }
+      }
+    }[] = []
+    const questionsWithoutId: {
+      text: string
+      answers: {
+        create: {
+          text: string
+          isCorrect: boolean
+        }[]
+      }
+    }[] = []
 
-    const questionsWithoutId = data.questions.filter(
-      (qwoi) => !qwoi.id || quizQuestionsIds.indexOf(qwoi.id) === -1,
-    )
+    for (const question of data.questions) {
+      if (question.id && existingIds.has(question.id)) {
+        questionsWithId.push({
+          where: { id: question.id },
+          data: {
+            text: question.text,
+            answers: {
+              deleteMany: {},
+              createMany: { data: question.answers },
+            },
+          },
+        })
+        existingIds.delete(question.id)
+      } else {
+        questionsWithoutId.push({
+          text: question.text,
+          answers: {
+            create: question.answers.map((ans) => ({
+              text: ans.text,
+              isCorrect: ans.isCorrect,
+            })),
+          },
+        })
+      }
+    }
+
+    const questionToDelete: { id: number }[] = []
+
+    for (const id of existingIds) {
+      questionToDelete.push({ id })
+    }
+
+    if (questionToDelete.length || questionsWithoutId.length) {
+      return this.prismaService.$transaction(async (tx) => {
+        const updateQuiz = await tx.quiz.update({
+          where: quizWhereUniqueInput,
+          data: {
+            title: data.title,
+            description: data.description,
+            questions: {
+              deleteMany: questionToDelete,
+              create: questionsWithoutId,
+              update: questionsWithId,
+            },
+          },
+        })
+
+        await tx.result.deleteMany({
+          where: {
+            quizId: quizWhereUniqueInput.id,
+          },
+        })
+
+        return updateQuiz
+      })
+    }
 
     return await this.prismaService.quiz.update({
       where: quizWhereUniqueInput,
       data: {
         ...data,
         questions: {
-          deleteMany: questionsToBeDeleted,
-          create: questionsWithoutId.map((qwoi) => ({
-            text: qwoi.text,
-            answers: {
-              create: qwoi.answers.map((qwoia) => ({
-                text: qwoia.text,
-                isCorrect: qwoia.isCorrect,
-              })),
-            },
-          })),
-          update: questionsWithId.map((qwi) => ({
-            where: { id: qwi.id },
-            data: {
-              text: qwi.text,
-              answers: {
-                update: qwi.answers.map((qwia) => ({
-                  where: { id: qwia.id },
-                  data: {
-                    text: qwia.text,
-                    isCorrect: qwia.isCorrect,
-                  },
-                })),
-              },
-            },
-          })),
+          deleteMany: questionToDelete,
+          create: questionsWithoutId,
+          update: questionsWithId,
         },
       },
     })
