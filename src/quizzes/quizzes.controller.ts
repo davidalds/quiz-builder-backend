@@ -16,12 +16,7 @@ import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
 import { CreateQuizScoreDto } from './dto/create-quiz-score.dto'
 import { Public } from 'src/auth/metadatas'
-
-interface AuthUser {
-  user: {
-    id: number
-  }
-}
+import type { ReqType } from 'src/types'
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -29,27 +24,29 @@ export class QuizzesController {
 
   @Public()
   @Get()
-  async findAll(
+  async findNewests(
     @Query('cursor') cursor: number,
     @Query('limit') limit: number,
+    @Query('search') search: string,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
-    return this.quizzesService.findAll(cursor, limit)
+    return this.quizzesService.findNewests(cursor, limit, search)
   }
 
   @Get('user-quizzes')
   async findByUser(
     @Query('offset') offset: number,
     @Query('limit') limit: number,
-    @Req() req: Request & AuthUser,
+    @Query('search') search: string,
+    @Req() req: ReqType,
   ): Promise<{ total: number; data: Quiz[] }> {
     const user = req['user']
-    return this.quizzesService.findByUser(offset, limit, user.id)
+    return this.quizzesService.findByUser(offset, limit, user.id, search)
   }
 
   @Post()
   async create(
     @Body() data: CreateQuizDto,
-    @Req() req: Request & AuthUser,
+    @Req() req: ReqType,
   ): Promise<Quiz> {
     const user = req['user']
     return this.quizzesService.create(data, user.id)
@@ -64,7 +61,7 @@ export class QuizzesController {
   @Get('user-quizzes/:id')
   async findOneByUser(
     @Param('id', ParseIntPipe) id: number,
-    @Req() req: Request & AuthUser,
+    @Req() req: ReqType,
   ): Promise<Quiz | null> {
     const user = req['user']
     return this.quizzesService.findOneByUser({ id, userId: user.id })
@@ -74,7 +71,7 @@ export class QuizzesController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateQuizDto,
-    @Req() req: Request & AuthUser,
+    @Req() req: ReqType,
   ): Promise<Quiz> {
     const user = req['user']
     return this.quizzesService.update({ id, userId: user.id }, data)
@@ -83,7 +80,7 @@ export class QuizzesController {
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,
-    @Req() req: Request & AuthUser,
+    @Req() req: ReqType,
   ): Promise<Quiz> {
     const user = req['user']
     return this.quizzesService.delete({ id, userId: user.id })

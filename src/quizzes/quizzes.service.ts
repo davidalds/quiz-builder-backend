@@ -9,13 +9,57 @@ import { CreateQuizScoreDto } from './dto/create-quiz-score.dto'
 export class QuizzesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findAll(
+  async findQuizzes(
+    quizArgs: Prisma.QuizFindManyArgs,
+  ): Promise<{ total: number; quizzes: Quiz[] }> {
+    const [quizzes, total] = await this.prismaService.$transaction([
+      this.prismaService.quiz.findMany(quizArgs),
+      this.prismaService.quiz.count({
+        where: quizArgs.where,
+      }),
+    ])
+
+    return {
+      total,
+      quizzes,
+    }
+  }
+
+  async findNewests(
     cursor: number,
     limit: number,
+    search: string,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
-    const quizzes = await this.prismaService.quiz.findMany({
+    const quizWhereParams: Prisma.QuizWhereInput = {
+      OR: [
+        {
+          title: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          User: {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        },
+      ],
+    }
+
+    const { quizzes, total } = await this.findQuizzes({
       skip: cursor ? 1 : 0,
       take: limit,
+      where: quizWhereParams,
+      include: {
+        User: {
+          select: {
+            name: true,
+          },
+        },
+      },
       cursor: cursor
         ? {
             id: cursor,
@@ -26,12 +70,11 @@ export class QuizzesService {
       },
     })
 
-    const totalQuizzes = await this.prismaService.quiz.count()
-
-    if (totalQuizzes) {
+    if (total) {
       const olderQuizId = await this.prismaService.quiz
         .findMany({
           take: 1,
+          where: quizWhereParams,
           orderBy: {
             createdAt: 'asc',
           },
@@ -44,37 +87,47 @@ export class QuizzesService {
       const nextCursor = lastQuizId === olderQuizId ? undefined : lastQuizId
 
       return {
-        total: totalQuizzes,
+        total,
         data: quizzes,
         nextCursor,
       }
     }
 
     return {
-      total: totalQuizzes,
+      total,
       data: quizzes,
       nextCursor: undefined,
     }
   }
 
-  async findByUser(offset: number, limit: number, userId: number) {
-    const res = await this.prismaService.quiz.findMany({
+  async findByUser(
+    offset: number,
+    limit: number,
+    userId: number,
+    search: string,
+  ) {
+    const { quizzes, total } = await this.findQuizzes({
       skip: offset,
       take: limit,
-      where: {
-        userId,
+      orderBy: {
+        createdAt: 'desc',
       },
-    })
-
-    const total = await this.prismaService.quiz.count({
       where: {
         userId,
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        ],
       },
     })
 
     return {
       total,
-      data: res,
+      data: quizzes,
     }
   }
 
