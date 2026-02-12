@@ -10,12 +10,12 @@ export class QuizzesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findQuizzes(
-    quizArgs: Prisma.QuizFindManyArgs,
+    quizArgs?: Prisma.QuizFindManyArgs,
   ): Promise<{ total: number; quizzes: Quiz[] }> {
     const [quizzes, total] = await this.prismaService.$transaction([
       this.prismaService.quiz.findMany(quizArgs),
       this.prismaService.quiz.count({
-        where: quizArgs.where,
+        where: quizArgs ? quizArgs.where : undefined,
       }),
     ])
 
@@ -25,10 +25,11 @@ export class QuizzesService {
     }
   }
 
-  async findNewests(
+  async findInfinityQuizzes(
     cursor: number,
     limit: number,
     search: string,
+    quizList: 'news' | 'popular',
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
     const quizWhereParams: Prisma.QuizWhereInput = {
       OR: [
@@ -65,9 +66,16 @@ export class QuizzesService {
             id: cursor,
           }
         : undefined,
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy:
+        quizList === 'news'
+          ? {
+              createdAt: 'desc',
+            }
+          : {
+              Result: {
+                _count: 'desc',
+              },
+            },
     })
 
     if (total) {
@@ -75,9 +83,16 @@ export class QuizzesService {
         .findMany({
           take: 1,
           where: quizWhereParams,
-          orderBy: {
-            createdAt: 'asc',
-          },
+          orderBy:
+            quizList === 'news'
+              ? {
+                  createdAt: 'asc',
+                }
+              : {
+                  Result: {
+                    _count: 'asc',
+                  },
+                },
         })
         .then((oq) => oq[0].id)
 

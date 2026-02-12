@@ -24,12 +24,26 @@ export class QuizzesController {
 
   @Public()
   @Get()
-  async findNewests(
+  async findInfinityQuizzes(
     @Query('cursor') cursor: number,
     @Query('limit') limit: number,
     @Query('search') search: string,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
-    return this.quizzesService.findNewests(cursor, limit, search)
+    return this.quizzesService.findInfinityQuizzes(
+      cursor,
+      limit,
+      search,
+      'news',
+    )
+  }
+
+  @Public()
+  @Get('popular')
+  async findPopular(
+    @Query('cursor') cursor: number,
+    @Query('limit') limit: number,
+  ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
+    return this.quizzesService.findInfinityQuizzes(cursor, limit, '', 'popular')
   }
 
   @Get('user-quizzes')
