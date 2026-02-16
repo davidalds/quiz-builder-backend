@@ -460,4 +460,46 @@ export class QuizzesService {
       },
     })
   }
+
+  async getDashboardInfo(userId: number): Promise<{
+    totalQuizzes: number
+    totalAnsweredQuizzes: number
+    mostAnsweredQuiz: (Quiz & { _count: { Result: number } }) | undefined
+  }> {
+    const [totalQuizzes, totalAnsweredQuizzes, mostAnsweredQuiz] =
+      await this.prismaService.$transaction([
+        this.prismaService.quiz.count({ where: { userId } }),
+        this.prismaService.result.count({
+          where: {
+            Quiz: {
+              userId,
+            },
+          },
+        }),
+        this.prismaService.quiz.findMany({
+          take: 1,
+          where: {
+            userId,
+          },
+          include: {
+            _count: {
+              select: {
+                Result: true,
+              },
+            },
+          },
+          orderBy: {
+            Result: {
+              _count: 'desc',
+            },
+          },
+        }),
+      ])
+
+    return {
+      totalQuizzes,
+      totalAnsweredQuizzes,
+      mostAnsweredQuiz: mostAnsweredQuiz[0],
+    }
+  }
 }

@@ -46,6 +46,12 @@ export class QuizzesController {
     return this.quizzesService.findInfinityQuizzes(cursor, limit, '', 'popular')
   }
 
+  @Get('dashboard')
+  async getDashboardInfo(@Req() req: ReqType) {
+    const user = req['user']
+    return await this.quizzesService.getDashboardInfo(user.id)
+  }
+
   @Get('user-quizzes')
   async findByUser(
     @Query('offset') offset: number,
