@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { Prisma, Quiz, Result } from 'generated/prisma'
+import { Prisma, Quiz } from 'generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
-import { CreateQuizScoreDto } from './dto/create-quiz-score.dto'
 
 @Injectable()
 export class QuizzesService {
@@ -138,6 +137,13 @@ export class QuizzesService {
           },
         ],
       },
+      include: {
+        _count: {
+          select: {
+            Result: true,
+          },
+        },
+      },
     })
 
     return {
@@ -166,28 +172,9 @@ export class QuizzesService {
               select: {
                 id: true,
                 text: true,
+                isCorrect: quizWhereUniqueInput.userId ? true : false,
               },
             },
-          },
-        },
-      },
-    })
-  }
-
-  async findOneByUser(
-    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
-  ): Promise<Quiz | null> {
-    return await this.prismaService.quiz.findUnique({
-      where: quizWhereUniqueInput,
-      include: {
-        questions: {
-          select: {
-            id: true,
-            text: true,
-            answers: true,
-          },
-          orderBy: {
-            createdAt: 'asc',
           },
         },
       },
@@ -335,130 +322,6 @@ export class QuizzesService {
     }
 
     return await this.prismaService.quiz.delete({ where: quizWhereUniqueInput })
-  }
-
-  async getQuizScore(
-    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
-    guestId: string,
-  ): Promise<Result> {
-    const quiz = await this.findOne(quizWhereUniqueInput)
-
-    if (!quiz) {
-      throw new NotFoundException('Quiz não encontrado!')
-    }
-
-    const result = await this.prismaService.result.findFirst({
-      where: { quizId: quiz.id, guestId: guestId },
-      include: {
-        Quiz: {
-          select: {
-            questions: {
-              select: {
-                id: true,
-                text: true,
-                answers: {
-                  where: { isCorrect: true },
-                },
-              },
-            },
-          },
-        },
-      },
-    })
-
-    if (!result) {
-      throw new NotFoundException('Resultado não encontrado!')
-    }
-
-    return result
-  }
-
-  calcQuizScore(
-    questions: {
-      id: number
-      answers: {
-        id: number
-      }[]
-    }[],
-    data: CreateQuizScoreDto,
-  ) {
-    const totalScore = questions.filter((question) => {
-      const userAnswer = data.userAnswers.find(
-        (ua) => ua.questionId === question.id,
-      )
-
-      return question.answers[0].id === userAnswer?.answerId
-    }).length
-
-    return totalScore
-  }
-
-  async updateQuizScore(
-    resultUniqueInput: Prisma.ResultWhereUniqueInput,
-    data: {
-      score: number
-      quizId: number
-      guestId: string
-    },
-  ): Promise<Result> {
-    return await this.prismaService.result.update({
-      where: resultUniqueInput,
-      data: {
-        ...data,
-      },
-    })
-  }
-
-  async recordQuizScore(
-    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
-    data: CreateQuizScoreDto,
-  ) {
-    const quiz = await this.prismaService.quiz.findUnique({
-      where: quizWhereUniqueInput,
-      include: {
-        questions: {
-          select: {
-            id: true,
-            answers: {
-              where: { isCorrect: true },
-              select: { id: true },
-            },
-          },
-        },
-      },
-    })
-
-    if (!quiz) {
-      throw new NotFoundException('Quiz não encontrado!')
-    }
-
-    const quizScore = this.calcQuizScore(quiz.questions, data)
-
-    const result = await this.prismaService.result.findFirst({
-      where: {
-        quizId: quiz.id,
-        guestId: data.guestId,
-      },
-    })
-
-    if (result) {
-      return this.updateQuizScore(
-        { id: result.id },
-        {
-          score: quizScore,
-          quizId: quiz.id,
-          guestId: data.guestId,
-        },
-      )
-    }
-
-    return await this.prismaService.result.create({
-      data: {
-        score: quizScore,
-        quizId: quiz.id,
-        guestId: data.guestId,
-      },
-    })
   }
 
   async getDashboardInfo(userId: number): Promise<{

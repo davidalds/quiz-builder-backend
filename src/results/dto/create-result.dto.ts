@@ -14,7 +14,7 @@ class userAnswer {
   answerId: number
 }
 
-export class CreateQuizScoreDto {
+export class CreateResultDto {
   @IsArray({ message: 'Valor tem que ser um array.' })
   @ArrayMinSize(1, { message: 'Deve ter pelo menos uma resposta marcada.' })
   @ValidateNested({ each: true, message: 'Valor deve ser válido.' })
