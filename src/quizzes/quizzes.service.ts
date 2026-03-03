@@ -24,11 +24,29 @@ export class QuizzesService {
     }
   }
 
+  async handleNextCursor(quizzes: Quiz[], quizArgs?: Prisma.QuizFindManyArgs) {
+    if (!quizzes.length) return undefined
+
+    const currentCursor = quizzes[quizzes.length - 1].id
+
+    const { quizzes: nextQuizzes } = await this.findQuizzes({
+      ...quizArgs,
+      take: 1,
+      skip: currentCursor ? 1 : 0,
+      cursor: {
+        id: currentCursor,
+      },
+    })
+
+    const nextCursor = nextQuizzes.length ? currentCursor : undefined
+
+    return nextCursor
+  }
+
   async findInfinityQuizzes(
     cursor: number,
     limit: number,
     search: string,
-    quizList: 'news' | 'popular',
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
     const quizWhereParams: Prisma.QuizWhereInput = {
       OR: [
@@ -65,52 +83,60 @@ export class QuizzesService {
             id: cursor,
           }
         : undefined,
-      orderBy:
-        quizList === 'news'
-          ? {
-              createdAt: 'desc',
-            }
-          : {
-              Result: {
-                _count: 'desc',
-              },
-            },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
-    if (total) {
-      const olderQuizId = await this.prismaService.quiz
-        .findMany({
-          take: 1,
-          where: quizWhereParams,
-          orderBy:
-            quizList === 'news'
-              ? {
-                  createdAt: 'asc',
-                }
-              : {
-                  Result: {
-                    _count: 'asc',
-                  },
-                },
-        })
-        .then((oq) => oq[0].id)
-
-      const lastQuizId = quizzes[quizzes.length - 1].id
-
-      // set undefined for front-end logic hide the "load more" button
-      const nextCursor = lastQuizId === olderQuizId ? undefined : lastQuizId
-
-      return {
-        total,
-        data: quizzes,
-        nextCursor,
-      }
-    }
+    const nextCursor = await this.handleNextCursor(quizzes, {
+      where: quizWhereParams,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
 
     return {
       total,
       data: quizzes,
-      nextCursor: undefined,
+      nextCursor,
+    }
+  }
+
+  async findInfinityPopularQuizzes(cursor: number, limit: number) {
+    const { quizzes, total } = await this.findQuizzes({
+      skip: cursor ? 1 : 0,
+      take: limit,
+      include: {
+        User: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      cursor: cursor
+        ? {
+            id: cursor,
+          }
+        : undefined,
+      orderBy: {
+        Result: {
+          _count: 'desc',
+        },
+      },
+    })
+
+    const nextCursor = await this.handleNextCursor(quizzes, {
+      orderBy: {
+        Result: {
+          _count: 'desc',
+        },
+      },
+    })
+
+    return {
+      total,
+      data: quizzes,
+      nextCursor,
     }
   }
 

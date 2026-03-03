@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Lucas Silva",
+        "email": "lucas.silva@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Mariana Souza",
+        "email": "mariana.souza@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Pedro Santos",
+        "email": "pedro.santos@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Ana Oliveira",
+        "email": "ana.oliveira@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Carlos Pereira",
+        "email": "carlos.pereira@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Juliana Costa",
+        "email": "juliana.costa@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Rafael Almeida",
+        "email": "rafael.almeida@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Fernanda Rodrigues",
+        "email": "fernanda.rodrigues@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Bruno Carvalho",
+        "email": "bruno.carvalho@example.com",
+        "password": "123456"
+    },
+    {
+        "name": "Camila Martins",
+        "email": "camila.martins@example.com",
+        "password": "123456"
+    }
+]

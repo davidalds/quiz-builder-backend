@@ -27,13 +27,8 @@ export class QuizzesController {
     @Query('cursor') cursor: number,
     @Query('limit') limit: number,
     @Query('search') search: string,
-  ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
-    return this.quizzesService.findInfinityQuizzes(
-      cursor,
-      limit,
-      search,
-      'news',
-    )
+  ) {
+    return this.quizzesService.findInfinityQuizzes(cursor, limit, search)
   }
 
   @Public()
@@ -42,7 +37,7 @@ export class QuizzesController {
     @Query('cursor') cursor: number,
     @Query('limit') limit: number,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
-    return this.quizzesService.findInfinityQuizzes(cursor, limit, '', 'popular')
+    return this.quizzesService.findInfinityPopularQuizzes(cursor, limit)
   }
 
   @Get('dashboard')

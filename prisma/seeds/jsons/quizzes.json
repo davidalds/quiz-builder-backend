@@ -1,0 +1,2391 @@
+[
+    {
+        "title": "Fundamentos de JavaScript",
+        "description": "Teste seus conhecimentos básicos sobre JavaScript.",
+        "questions": [
+            {
+                "text": "Qual palavra-chave declara uma variável com escopo de bloco?",
+                "answers": [
+                    {
+                        "text": "var",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "let",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "define",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "static",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "global",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual método converte JSON em objeto?",
+                "answers": [
+                    {
+                        "text": "JSON.parse()",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "JSON.stringify()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "JSON.convert()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "parseJSON()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "toObject()",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual operador verifica valor e tipo?",
+                "answers": [
+                    {
+                        "text": "==",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "=",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "===",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "!=",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual estrutura repete execuções?",
+                "answers": [
+                    {
+                        "text": "if",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "switch",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "for",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "try",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "case",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual função imprime no console?",
+                "answers": [
+                    {
+                        "text": "print()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "console.log()",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "write()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "alert()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "echo()",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "HTML Básico",
+        "description": "Estrutura e elementos HTML.",
+        "questions": [
+            {
+                "text": "Qual tag representa o maior título?",
+                "answers": [
+                    {
+                        "text": "<h6>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<h1>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<header>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<title>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<head>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual tag cria links?",
+                "answers": [
+                    {
+                        "text": "<a>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<link>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<href>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<nav>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<url>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual atributo define origem da imagem?",
+                "answers": [
+                    {
+                        "text": "href",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "src",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "alt",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "path",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "ref",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Lista ordenada usa qual tag?",
+                "answers": [
+                    {
+                        "text": "<ul>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<ol>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<li>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<dl>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<list>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual tag representa parágrafo?",
+                "answers": [
+                    {
+                        "text": "<span>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<p>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<text>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<div>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<section>",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "CSS Avançado",
+        "description": "Conhecimentos sobre layout e estilização moderna.",
+        "questions": [
+            {
+                "text": "Qual propriedade cria layout flexível?",
+                "answers": [
+                    {
+                        "text": "display: block",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "display: flex",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "position: flex",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "layout: flex",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "float: flex",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual propriedade centraliza itens no eixo principal?",
+                "answers": [
+                    {
+                        "text": "align-items",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "justify-content",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "text-align",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "place-items",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "center",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual unidade é relativa ao viewport?",
+                "answers": [
+                    {
+                        "text": "px",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "%",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "vh",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "em",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "rem",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual propriedade controla camadas?",
+                "answers": [
+                    {
+                        "text": "layer",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "index",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "z-index",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "depth",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "stack",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Grid layout usa qual propriedade?",
+                "answers": [
+                    {
+                        "text": "display: grid",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "layout: grid",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "grid: true",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "display: table",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "position: grid",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "TypeScript",
+        "description": "Tipagem estática no JavaScript.",
+        "questions": [
+            {
+                "text": "TypeScript é um superset de qual linguagem?",
+                "answers": [
+                    {
+                        "text": "Java",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Python",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "JavaScript",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "C#",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Go",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Qual define tipo de variável?",
+                "answers": [
+                    {
+                        "text": ":",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "=",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "::",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "=>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "#",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Tipo para qualquer valor?",
+                "answers": [
+                    {
+                        "text": "unknown",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "any",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "all",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "var",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "mixed",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Interface serve para?",
+                "answers": [
+                    {
+                        "text": "Criar loops",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Definir contratos de objetos",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Executar funções",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Importar módulos",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Criar classes abstratas",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Arquivo TypeScript possui extensão?",
+                "answers": [
+                    {
+                        "text": ".js",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": ".ts",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": ".tsxv",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": ".type",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": ".json",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "NestJS",
+        "description": "Framework backend Node.js.",
+        "questions": [
+            {
+                "text": "NestJS é baseado em qual padrão?",
+                "answers": [
+                    {
+                        "text": "MVC",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Observer",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Singleton",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Factory",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Adapter",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Decorador para controller?",
+                "answers": [
+                    {
+                        "text": "@Service()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "@Controller()",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "@Module()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "@Inject()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "@Route()",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Responsável por lógica?",
+                "answers": [
+                    {
+                        "text": "Controller",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Service",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Module",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Guard",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Pipe",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Injeção de dependência é?",
+                "answers": [
+                    {
+                        "text": "Manual",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Automática pelo container",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Opcional",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Frontend",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "HTTP",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Arquivo raiz?",
+                "answers": [
+                    {
+                        "text": "app.module.ts",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "main.controller.ts",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "index.ts",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "server.ts",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "root.ts",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Prisma ORM",
+        "description": "Conhecimentos sobre Prisma.",
+        "questions": [
+            {
+                "text": "Qual comando gera client?",
+                "answers": [
+                    {
+                        "text": "prisma build",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma generate",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "prisma start",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma client",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma init",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Arquivo principal do schema?",
+                "answers": [
+                    {
+                        "text": "schema.prisma",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "prisma.json",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "db.schema",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "model.prisma",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "config.prisma",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Migração usa?",
+                "answers": [
+                    {
+                        "text": "prisma migrate dev",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "prisma update",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma push",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma db",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "prisma sync",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "ORM significa?",
+                "answers": [
+                    {
+                        "text": "Object Relational Mapping",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Object Runtime Manager",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Operational Relation Model",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Object Request Method",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Online Resource Model",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Método para múltiplos registros?",
+                "answers": [
+                    {
+                        "text": "createMany",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "insertAll",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "addMany",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "bulkCreate",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "multiInsert",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "HTTP e Web",
+        "description": "Conceitos fundamentais do protocolo HTTP.",
+        "questions": [
+            {
+                "text": "Qual status indica sucesso?",
+                "answers": [
+                    {
+                        "text": "404",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "500",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "200",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "301",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "403",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Método usado para criar recurso?",
+                "answers": [
+                    {
+                        "text": "GET",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "POST",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "DELETE",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "PATCH",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "OPTIONS",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "HTTPS adiciona?",
+                "answers": [
+                    {
+                        "text": "Cache",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Compressão",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Criptografia",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Firewall",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Proxy",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Header envia?",
+                "answers": [
+                    {
+                        "text": "Estilos CSS",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Metadados da requisição",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Banco de dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Scripts JS",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "HTML renderizado",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Status 404 significa?",
+                "answers": [
+                    {
+                        "text": "Servidor caiu",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Não autorizado",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Recurso não encontrado",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Sucesso",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Erro interno",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Docker Básico",
+        "description": "Fundamentos de containers.",
+        "questions": [
+            {
+                "text": "Docker serve para?",
+                "answers": [
+                    {
+                        "text": "Criar banco",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Virtualizar aplicações",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Compilar código",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Gerenciar usuários",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Hospedar domínio",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Arquivo de configuração?",
+                "answers": [
+                    {
+                        "text": "docker.config",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Dockerfile",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "container.json",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "image.yml",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "dock.yml",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Imagem é?",
+                "answers": [
+                    {
+                        "text": "Container em execução",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Template do container",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Servidor físico",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco de dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Rede",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Comando para rodar container?",
+                "answers": [
+                    {
+                        "text": "docker start",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "docker run",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "docker exec",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "docker create",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "docker build",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Docker Hub é?",
+                "answers": [
+                    {
+                        "text": "IDE",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Repositório de imagens",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Servidor local",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Sistema operacional",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Firewall",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Algoritmos",
+        "description": "Fundamentos de algoritmos e estruturas.",
+        "questions": [
+            {
+                "text": "Busca binária requer?",
+                "answers": [
+                    {
+                        "text": "Lista aleatória",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Lista ordenada",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Lista vazia",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Hash",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Árvore",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Complexidade O(n) significa?",
+                "answers": [
+                    {
+                        "text": "Constante",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Linear",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Logarítmica",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Quadrática",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Exponencial",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Stack segue qual princípio?",
+                "answers": [
+                    {
+                        "text": "FIFO",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "LIFO",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Random",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Priority",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Linear",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Queue funciona como?",
+                "answers": [
+                    {
+                        "text": "LIFO",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "FIFO",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Circular",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Tree",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Graph",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Algoritmo eficiente busca?",
+                "answers": [
+                    {
+                        "text": "Mais memória",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Menor desempenho",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Menor custo computacional",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Mais código",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Mais loops",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "DevOps",
+        "description": "Práticas modernas de entrega contínua.",
+        "questions": [
+            {
+                "text": "CI significa?",
+                "answers": [
+                    {
+                        "text": "Continuous Integration",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Code Instance",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Control Interface",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Container Integration",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Central Infrastructure",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "CD significa?",
+                "answers": [
+                    {
+                        "text": "Continuous Delivery",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Code Deploy",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Container Deploy",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Central Delivery",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Commit Deploy",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Pipeline automatiza?",
+                "answers": [
+                    {
+                        "text": "Design",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Build e deploy",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Usuários",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco manual",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Interface",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Deploy contínuo permite?",
+                "answers": [
+                    {
+                        "text": "Deploy manual",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Entrega automática",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Sem testes",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Sem build",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Offline",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "DevOps une?",
+                "answers": [
+                    {
+                        "text": "Design e UX",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Desenvolvimento e Operações",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Frontend e CSS",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco e UI",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Cliente e servidor",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "React Fundamentals",
+        "description": "Conceitos básicos do React.",
+        "questions": [
+            {
+                "text": "React é uma?",
+                "answers": [
+                    {
+                        "text": "Framework backend",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Biblioteca JavaScript para UI",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Linguagem",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco de dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Servidor HTTP",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Hook para estado?",
+                "answers": [
+                    {
+                        "text": "useEffect",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "useState",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "useFetch",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "useData",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "useStore",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "JSX permite?",
+                "answers": [
+                    {
+                        "text": "SQL dentro JS",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "HTML dentro JavaScript",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "CSS automático",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Backend render",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Compilar API",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Props são?",
+                "answers": [
+                    {
+                        "text": "Estados globais",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Dados passados ao componente",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Eventos",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Rotas",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Hooks",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Renderização ocorre quando?",
+                "answers": [
+                    {
+                        "text": "Servidor reinicia",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Estado muda",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Arquivo salva",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "API responde",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "CSS altera",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Banco de Dados",
+        "description": "Conceitos fundamentais de bancos relacionais.",
+        "questions": [
+            {
+                "text": "SQL significa?",
+                "answers": [
+                    {
+                        "text": "Structured Query Language",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Simple Query Logic",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "System Query Language",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Server Question Language",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Standard Quick Language",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Chave primária é?",
+                "answers": [
+                    {
+                        "text": "Campo duplicado",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Identificador único",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Campo opcional",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Index comum",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Relacionamento",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "SELECT serve para?",
+                "answers": [
+                    {
+                        "text": "Inserir dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Consultar dados",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Excluir tabela",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Atualizar schema",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Criar índice",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "DELETE faz?",
+                "answers": [
+                    {
+                        "text": "Atualiza registros",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Remove registros",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Cria tabela",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Consulta dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Ordena resultados",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Relacionamento 1:N significa?",
+                "answers": [
+                    {
+                        "text": "Um para muitos",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Um para um",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Muitos para muitos",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Nenhum",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Circular",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Git e Versionamento",
+        "description": "Controle de versão com Git.",
+        "questions": [
+            {
+                "text": "Git é?",
+                "answers": [
+                    {
+                        "text": "Banco de dados",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Sistema de controle de versão",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Framework",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "IDE",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Servidor web",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "git clone faz?",
+                "answers": [
+                    {
+                        "text": "Apaga repo",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Copia repositório",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Cria branch",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Commit automático",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Merge arquivos",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "git commit salva?",
+                "answers": [
+                    {
+                        "text": "Mudanças localmente",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Servidor remoto",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Deploy",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Branch",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "git push envia?",
+                "answers": [
+                    {
+                        "text": "Arquivos locais",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Commits ao remoto",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Logs",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Dependências",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Containers",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Branch serve para?",
+                "answers": [
+                    {
+                        "text": "Testar mudanças isoladas",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Excluir código",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Compilar app",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Executar API",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Versionar banco",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Segurança Web",
+        "description": "Boas práticas de segurança.",
+        "questions": [
+            {
+                "text": "HTTPS protege contra?",
+                "answers": [
+                    {
+                        "text": "Latência",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Interceptação de dados",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Bug frontend",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Cache",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "DNS",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "SQL Injection ataca?",
+                "answers": [
+                    {
+                        "text": "Frontend",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco de dados",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "CSS",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Rede física",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Servidor DNS",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Hash serve para?",
+                "answers": [
+                    {
+                        "text": "Criptografar senha",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Executar código",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Enviar email",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Cachear API",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Criar sessão",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "JWT é usado para?",
+                "answers": [
+                    {
+                        "text": "Autenticação",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Estilização",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Banco",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Deploy",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Logs",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "XSS permite?",
+                "answers": [
+                    {
+                        "text": "Executar scripts maliciosos",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Criar banco",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Aumentar performance",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Cachear página",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Autenticar usuário",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "JavaScript Fundamentals",
+        "description": "Test your knowledge about core JavaScript concepts including variables, types and operators.",
+        "questions": [
+            {
+                "text": "What is the result of typeof null?",
+                "answers": [
+                    {
+                        "text": "null",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "object",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "undefined",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "number",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which keyword declares a block-scoped variable?",
+                "answers": [
+                    {
+                        "text": "var",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "let",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "define",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "constvar",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which method converts JSON to object?",
+                "answers": [
+                    {
+                        "text": "JSON.parse()",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "JSON.stringify()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "JSON.convert()",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "JSON.object()",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which symbol is used for strict equality?",
+                "answers": [
+                    {
+                        "text": "==",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "===",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "=",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "!=",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which structure repeats code?",
+                "answers": [
+                    {
+                        "text": "loop",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "for",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "object",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "class",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "HTML Basics",
+        "description": "Evaluate your understanding of fundamental HTML tags and document structure.",
+        "questions": [
+            {
+                "text": "Which tag creates a hyperlink?",
+                "answers": [
+                    {
+                        "text": "<a>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<link>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<href>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<nav>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which tag represents the largest heading?",
+                "answers": [
+                    {
+                        "text": "<h6>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<h1>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<header>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<title>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Where is metadata placed?",
+                "answers": [
+                    {
+                        "text": "<body>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<head>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<footer>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<section>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which tag inserts an image?",
+                "answers": [
+                    {
+                        "text": "<img>",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "<image>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<pic>",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "<src>",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "HTML stands for?",
+                "answers": [
+                    {
+                        "text": "Hyper Text Markup Language",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "High Transfer Machine Language",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Hyperlinks Text Machine",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Home Tool Markup Language",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "CSS Essentials",
+        "description": "Check your knowledge about styling, layout systems and responsive design using CSS.",
+        "questions": [
+            {
+                "text": "Which property changes text color?",
+                "answers": [
+                    {
+                        "text": "font-color",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "color",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "text-style",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "background",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which layout system uses rows and columns?",
+                "answers": [
+                    {
+                        "text": "Flexbox",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Grid",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Inline",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Float",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which property controls spacing outside an element?",
+                "answers": [
+                    {
+                        "text": "padding",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "margin",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "border",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "gap",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which value makes position relative to viewport?",
+                "answers": [
+                    {
+                        "text": "absolute",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "fixed",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "relative",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "static",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which unit is relative to root font size?",
+                "answers": [
+                    {
+                        "text": "px",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "em",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "rem",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "%",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Node.js Basics",
+        "description": "Assess your understanding of Node.js runtime, modules and backend fundamentals.",
+        "questions": [
+            {
+                "text": "Node.js runs on which engine?",
+                "answers": [
+                    {
+                        "text": "SpiderMonkey",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "V8",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Chakra",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Java VM",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which module handles file system?",
+                "answers": [
+                    {
+                        "text": "http",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "fs",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "path",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "os",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which command installs dependencies?",
+                "answers": [
+                    {
+                        "text": "node install",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "npm install",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "npm start",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "node modules",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which object represents HTTP request?",
+                "answers": [
+                    {
+                        "text": "req",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "res",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "http",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "requester",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Node.js is?",
+                "answers": [
+                    {
+                        "text": "Frontend framework",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Runtime environment",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Database",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Browser",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Database Concepts",
+        "description": "Test your understanding of relational databases, SQL commands and data relationships.",
+        "questions": [
+            {
+                "text": "Primary key must be?",
+                "answers": [
+                    {
+                        "text": "Nullable",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Unique",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Optional",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Repeated",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "SQL stands for?",
+                "answers": [
+                    {
+                        "text": "Structured Query Language",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Simple Query Logic",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "System Query Language",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Sequential Query List",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which command retrieves data?",
+                "answers": [
+                    {
+                        "text": "INSERT",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "SELECT",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "DELETE",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "UPDATE",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Foreign key represents?",
+                "answers": [
+                    {
+                        "text": "Unique column",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Relationship between tables",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "Primary index",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Temporary value",
+                        "isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Which database is NoSQL?",
+                "answers": [
+                    {
+                        "text": "PostgreSQL",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "MongoDB",
+                        "isCorrect": true
+                    },
+                    {
+                        "text": "MySQL",
+                        "isCorrect": false
+                    },
+                    {
+                        "text": "Oracle",
+                        "isCorrect": false
+                    }
+                ]
+            }
+        ]
+    }
+]
