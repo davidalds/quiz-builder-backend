@@ -13,6 +13,9 @@ async function main() {
         case "quizzes":
             await seedQuizzes(prisma)
             break
+        default:
+            await seedUsers(prisma)
+            await seedQuizzes(prisma)
     }
 }
 
