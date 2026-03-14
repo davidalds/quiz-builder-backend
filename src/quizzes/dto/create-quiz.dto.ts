@@ -38,12 +38,23 @@ export class CreateQuestionDto {
   answers: CreateAnswerDto[]
 }
 
+class Category {
+  @IsString({ message: 'Valor deve ser string' })
+  slug: string
+}
+
 export class CreateQuizDto {
   @IsString({ message: 'Valor deve ser string.' })
   title: string
 
   @IsString({ message: 'Valor deve ser string.' })
   description: string
+
+  @IsArray({ message: 'Valor deve ser um array.' })
+  @ArrayMinSize(1, { message: 'Quiz deve conter no mínimo 1 categorias.' })
+  @ValidateNested({ each: true, message: 'Dever haver uma categoria.' })
+  @Type(() => Category)
+  categories: Category[]
 
   @IsArray({ message: 'Valor deve ser um array.' })
   @ArrayMinSize(1, { message: 'Quiz deve conter no mínimo 1 questão.' })

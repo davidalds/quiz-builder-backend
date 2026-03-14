@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Programação",
+    "slug": "programacao"
+  },
+  {
+    "title": "Matemática",
+    "slug": "matematica"
+  },
+  {
+    "title": "História",
+    "slug": "historia"
+  },
+  {
+    "title": "Geografia",
+    "slug": "geografia"
+  },
+  {
+    "title": "Ciências",
+    "slug": "ciencias"
+  },
+  {
+    "title": "Inglês",
+    "slug": "ingles"
+  },
+  {
+    "title": "Tecnologia",
+    "slug": "tecnologia"
+  },
+  {
+    "title": "Cultura Pop",
+    "slug": "cultura-pop"
+  },
+  {
+    "title": "Esportes",
+    "slug": "esportes"
+  },
+  {
+    "title": "Cinema e Séries",
+    "slug": "cinema-series"
+  }
+]

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
@@ -24,20 +25,32 @@ export class QuizzesController {
   @Public()
   @Get()
   async findInfinityQuizzes(
-    @Query('cursor') cursor: number,
-    @Query('limit') limit: number,
+    @Query('cursor', new DefaultValuePipe(0), ParseIntPipe) cursor: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('category') category: string,
     @Query('search') search: string,
   ) {
-    return this.quizzesService.findInfinityQuizzes(cursor, limit, search)
+    return this.quizzesService.findInfinityQuizzes(
+      cursor,
+      limit,
+      category,
+      search,
+    )
   }
 
   @Public()
   @Get('popular')
   async findPopular(
-    @Query('cursor') cursor: number,
-    @Query('limit') limit: number,
+    @Query('cursor', new DefaultValuePipe(0), ParseIntPipe) cursor: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
     return this.quizzesService.findInfinityPopularQuizzes(cursor, limit)
+  }
+
+  @Public()
+  @Get('categories/:slug')
+  async findByCategory(@Param('slug') slug: string) {
+    return this.quizzesService.findByCategory({ slug })
   }
 
   @Get('dashboard')
@@ -48,13 +61,20 @@ export class QuizzesController {
 
   @Get('user-quizzes')
   async findByUser(
-    @Query('offset') offset: number,
-    @Query('limit') limit: number,
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('category') category: string,
     @Query('search') search: string,
     @Req() req: ReqType,
-  ): Promise<{ total: number; data: Quiz[] }> {
+  ) {
     const user = req['user']
-    return this.quizzesService.findByUser(offset, limit, user.id, search)
+    return this.quizzesService.findByUser(
+      offset,
+      limit,
+      user.id,
+      category,
+      search,
+    )
   }
 
   @Post()
@@ -76,7 +96,7 @@ export class QuizzesController {
   async findOneByUser(
     @Param('id', ParseIntPipe) id: number,
     @Req() req: ReqType,
-  ): Promise<Quiz | null> {
+  ) {
     const user = req['user']
     return this.quizzesService.findOne({ id, userId: user.id })
   }

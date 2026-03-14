@@ -46,9 +46,15 @@ export class QuizzesService {
   async findInfinityQuizzes(
     cursor: number,
     limit: number,
+    category: string,
     search: string,
   ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
     const quizWhereParams: Prisma.QuizWhereInput = {
+      categories: {
+        some: {
+          slug: category ? category : undefined,
+        },
+      },
       OR: [
         {
           title: {
@@ -113,21 +119,39 @@ export class QuizzesService {
           },
         },
       },
+      where: {
+        results: {
+          some: {
+            score: {
+              gte: 0,
+            },
+          },
+        },
+      },
       cursor: cursor
         ? {
             id: cursor,
           }
         : undefined,
       orderBy: {
-        Result: {
+        results: {
           _count: 'desc',
         },
       },
     })
 
     const nextCursor = await this.handleNextCursor(quizzes, {
+      where: {
+        results: {
+          some: {
+            score: {
+              gte: 0,
+            },
+          },
+        },
+      },
       orderBy: {
-        Result: {
+        results: {
           _count: 'desc',
         },
       },
@@ -144,6 +168,7 @@ export class QuizzesService {
     offset: number,
     limit: number,
     userId: number,
+    category: string,
     search: string,
   ) {
     const { quizzes, total } = await this.findQuizzes({
@@ -154,6 +179,11 @@ export class QuizzesService {
       },
       where: {
         userId,
+        categories: {
+          some: {
+            slug: category ? category : undefined,
+          },
+        },
         OR: [
           {
             title: {
@@ -164,9 +194,10 @@ export class QuizzesService {
         ],
       },
       include: {
+        categories: true,
         _count: {
           select: {
-            Result: true,
+            results: true,
           },
         },
       },
@@ -178,9 +209,24 @@ export class QuizzesService {
     }
   }
 
-  async findOne(
-    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
-  ): Promise<Quiz | null> {
+  async findByCategory({ slug }: Prisma.CategoryWhereUniqueInput) {
+    const { quizzes, total } = await this.findQuizzes({
+      where: {
+        categories: {
+          some: {
+            slug,
+          },
+        },
+      },
+    })
+
+    return {
+      total,
+      data: quizzes,
+    }
+  }
+
+  async findOne(quizWhereUniqueInput: Prisma.QuizWhereUniqueInput) {
     return await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
       include: {
@@ -190,6 +236,7 @@ export class QuizzesService {
             name: true,
           },
         },
+        categories: true,
         questions: {
           select: {
             id: true,
@@ -212,6 +259,9 @@ export class QuizzesService {
       data: {
         ...data,
         userId,
+        categories: {
+          connect: data.categories,
+        },
         questions: {
           create: data.questions.map((q) => ({
             text: q.text,
@@ -300,41 +350,32 @@ export class QuizzesService {
       questionToDelete.push({ id })
     }
 
-    if (questionToDelete.length || questionsWithoutId.length) {
-      return this.prismaService.$transaction(async (tx) => {
-        const updateQuiz = await tx.quiz.update({
-          where: quizWhereUniqueInput,
-          data: {
-            title: data.title,
-            description: data.description,
-            questions: {
-              deleteMany: questionToDelete,
-              create: questionsWithoutId,
-              update: questionsWithId,
-            },
+    return this.prismaService.$transaction(async (tx) => {
+      const updateQuiz = await tx.quiz.update({
+        where: quizWhereUniqueInput,
+        data: {
+          title: data.title,
+          description: data.description,
+          categories: {
+            set: [],
+            connect: data.categories,
           },
-        })
+          questions: {
+            deleteMany: questionToDelete,
+            create: questionsWithoutId,
+            update: questionsWithId,
+          },
+        },
+      })
 
+      if (questionToDelete.length || questionsWithoutId.length) {
         await tx.result.deleteMany({
           where: {
             quizId: quizWhereUniqueInput.id,
           },
         })
-
-        return updateQuiz
-      })
-    }
-
-    return await this.prismaService.quiz.update({
-      where: quizWhereUniqueInput,
-      data: {
-        ...data,
-        questions: {
-          deleteMany: questionToDelete,
-          create: questionsWithoutId,
-          update: questionsWithId,
-        },
-      },
+      }
+      return updateQuiz
     })
   }
 
@@ -353,7 +394,7 @@ export class QuizzesService {
   async getDashboardInfo(userId: number): Promise<{
     totalQuizzes: number
     totalAnsweredQuizzes: number
-    mostAnsweredQuiz: (Quiz & { _count: { Result: number } }) | undefined
+    mostAnsweredQuiz: (Quiz & { _count: { results: number } }) | undefined
   }> {
     const [totalQuizzes, totalAnsweredQuizzes, mostAnsweredQuiz] =
       await this.prismaService.$transaction([
@@ -373,12 +414,12 @@ export class QuizzesService {
           include: {
             _count: {
               select: {
-                Result: true,
+                results: true,
               },
             },
           },
           orderBy: {
-            Result: {
+            results: {
               _count: 'desc',
             },
           },

@@ -1,6 +1,7 @@
 import { PrismaClient } from "generated/prisma";
 import { seedUsers } from "./seeds/seedUsers";
 import { seedQuizzes } from "./seeds/seedQuizzes";
+import { seedCategories } from "./seeds/seedCategories";
 
 const prisma = new PrismaClient()
 
@@ -10,12 +11,12 @@ async function main() {
         case "users":
             await seedUsers(prisma)
             break
+        case "categories":
+            await seedCategories(prisma) 
+            break
         case "quizzes":
             await seedQuizzes(prisma)
             break
-        default:
-            await seedUsers(prisma)
-            await seedQuizzes(prisma)
     }
 }
 

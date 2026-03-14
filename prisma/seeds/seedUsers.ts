@@ -1,22 +1,21 @@
-import { Prisma, PrismaClient, User } from "generated/prisma"
+import { Prisma, PrismaClient } from "generated/prisma"
 import dataUsers from './jsons/users.json'
 import * as bcrypt from 'bcrypt'
 
 export async function seedUsers(prisma: PrismaClient | Prisma.TransactionClient) {
-    for (const dataUser of dataUsers) {
-        const user = dataUser as User
-        const salt = await bcrypt.genSalt()
-        const hash = await bcrypt.hash(user.password, salt)
-        await prisma.user.upsert({
-            where: { email: user.email },
-            update: {},
-            create: {
-                name: user.name,
-                email: user.email,
-                password: hash
-            }
-        })
-    }
 
+    const users = dataUsers.map((user) =>{
+        const salt =  bcrypt.genSaltSync()
+        const hash = bcrypt.hashSync(user.password, salt)
+        return {
+            ...user,
+            password: hash
+        }
+    })
+
+    await prisma.user.createMany({
+        data: users,
+        skipDuplicates: true
+    })
 }
 
