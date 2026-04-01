@@ -13,17 +13,24 @@ export class ResultsService {
 
   async getQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+    { id: userId }: Prisma.UserWhereUniqueInput,
     guestId: string,
-  ): Promise<Result> {
+  ) {
     const quiz = await this.quizzesService.findOne(quizWhereUniqueInput)
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!')
     }
 
+    const guestOrUser = userId ? { userId } : { guestId }
+
     const result = await this.prismaService.result.findFirst({
-      where: { quizId: quiz.id, guestId: guestId },
-      include: {
+      where: { quizId: quiz.id, ...guestOrUser },
+      select: {
+        id: true,
+        userId: true,
+        quizId: true,
+        score: true,
         Quiz: {
           select: {
             questions: {
@@ -44,7 +51,15 @@ export class ResultsService {
       throw new NotFoundException('Resultado não encontrado!')
     }
 
-    return result
+    const { id, quizId, score, Quiz } = result
+
+    return {
+      id,
+      userId,
+      quizId,
+      score,
+      questions: Quiz.questions,
+    }
   }
 
   calcQuizScore(
@@ -72,7 +87,8 @@ export class ResultsService {
     data: {
       score: number
       quizId: number
-      guestId: string
+      guestId?: string
+      userId?: number
     },
   ): Promise<Result> {
     return await this.prismaService.result.update({
@@ -85,6 +101,7 @@ export class ResultsService {
 
   async recordQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+    { id: userId }: Prisma.UserWhereUniqueInput,
     data: CreateResultDto,
   ) {
     const quiz = await this.prismaService.quiz.findUnique({
@@ -108,10 +125,12 @@ export class ResultsService {
 
     const quizScore = this.calcQuizScore(quiz.questions, data)
 
+    const guestOrUser = userId ? { userId } : { guestId: data.guestId }
+
     const result = await this.prismaService.result.findFirst({
       where: {
         quizId: quiz.id,
-        guestId: data.guestId,
+        ...guestOrUser,
       },
     })
 
@@ -121,7 +140,7 @@ export class ResultsService {
         {
           score: quizScore,
           quizId: quiz.id,
-          guestId: data.guestId,
+          ...guestOrUser,
         },
       )
     }
@@ -130,8 +149,46 @@ export class ResultsService {
       data: {
         score: quizScore,
         quizId: quiz.id,
-        guestId: data.guestId,
+        ...guestOrUser,
       },
     })
+  }
+
+  async getQuizzesByResult(
+    offset: number,
+    limit: number,
+    { id: userId }: Prisma.UserWhereUniqueInput,
+  ) {
+    const [total, res] = await this.prismaService.$transaction([
+      this.prismaService.result.count({
+        where: { userId },
+      }),
+      this.prismaService.result.findMany({
+        where: { userId },
+        select: {
+          Quiz: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+          createdAt: true,
+          updatedAt: true,
+        },
+        skip: offset,
+        take: limit,
+      }),
+    ])
+
+    const quizzes = res.map(({ Quiz, createdAt, updatedAt }) => ({
+      ...Quiz,
+      done: createdAt,
+      redone: updatedAt,
+    }))
+
+    return {
+      total,
+      quizzes,
+    }
   }
 }

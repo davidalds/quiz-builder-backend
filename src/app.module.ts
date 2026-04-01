@@ -5,10 +5,16 @@ import { AuthModule } from './auth/auth.module'
 import { APP_GUARD } from '@nestjs/core'
 import { AuthGuard } from './auth/auth.guard'
 import { ResultsModule } from './results/results.module'
-import { CategoriesModule } from './categories/categories.module';
+import { CategoriesModule } from './categories/categories.module'
 
 @Module({
-  imports: [UsersModule, QuizzesModule, AuthModule, ResultsModule, CategoriesModule],
+  imports: [
+    UsersModule,
+    QuizzesModule,
+    AuthModule,
+    ResultsModule,
+    CategoriesModule,
+  ],
   providers: [
     {
       provide: APP_GUARD,

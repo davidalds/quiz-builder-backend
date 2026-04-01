@@ -23,12 +23,9 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ])
 
-    if (isPublic) {
-      return true
-    }
-
     const request: Request = context.switchToHttp().getRequest()
     const token = this.extractTokenFromHeader(request)
+
     if (token) {
       try {
         const payload: { id: number; email: string; name: string } =
@@ -37,14 +34,18 @@ export class AuthGuard implements CanActivate {
           })
 
         request['user'] = payload
+        return true
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
+        if (isPublic) return true
+
         throw new UnauthorizedException('Token inválido')
       }
-      return true
-    }
+    } else {
+      if (isPublic) return true
 
-    return false
+      throw new UnauthorizedException('Token não informado/mal formatado')
+    }
   }
 
   private extractTokenFromHeader(req: Request) {
@@ -58,10 +59,7 @@ export class AuthGuard implements CanActivate {
           return token[1]
         }
       }
-
-      throw new UnauthorizedException('Token mal-formatado')
-    } else {
-      throw new UnauthorizedException('Token de acesso não informado')
     }
+    return null
   }
 }
