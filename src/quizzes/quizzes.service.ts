@@ -3,14 +3,13 @@ import { Prisma, Quiz } from 'generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
+import { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
 
 @Injectable()
 export class QuizzesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findQuizzes(
-    quizArgs?: Prisma.QuizFindManyArgs,
-  ): Promise<{ total: number; quizzes: Quiz[] }> {
+  async findQuizzes(quizArgs?: Prisma.QuizFindManyArgs): Promise<QuizResponse> {
     const [quizzes, total] = await this.prismaService.$transaction([
       this.prismaService.quiz.findMany(quizArgs),
       this.prismaService.quiz.count({
@@ -20,21 +19,24 @@ export class QuizzesService {
 
     return {
       total,
-      quizzes,
+      data: quizzes,
     }
   }
 
-  async handleNextCursor(quizzes: Quiz[], quizArgs?: Prisma.QuizFindManyArgs) {
+  async handleNextCursor(
+    quizzes: Quiz[],
+    quizArgs?: Prisma.QuizFindManyArgs,
+  ): Promise<string | undefined> {
     if (!quizzes.length) return undefined
 
-    const currentCursor = quizzes[quizzes.length - 1].id
+    const currentCursor = quizzes[quizzes.length - 1].publicId
 
-    const { quizzes: nextQuizzes } = await this.findQuizzes({
+    const { data: nextQuizzes } = await this.findQuizzes({
       ...quizArgs,
       take: 1,
       skip: currentCursor ? 1 : 0,
       cursor: {
-        id: currentCursor,
+        publicId: currentCursor,
       },
     })
 
@@ -44,11 +46,11 @@ export class QuizzesService {
   }
 
   async findInfinityQuizzes(
-    cursor: number,
+    cursor: string,
     limit: number,
     category: string,
     search: string,
-  ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
+  ): Promise<QuizInfinityResponse> {
     const quizWhereParams: Prisma.QuizWhereInput = {
       categories: {
         some: {
@@ -73,11 +75,16 @@ export class QuizzesService {
       ],
     }
 
-    const { quizzes, total } = await this.findQuizzes({
+    const { data: quizzes, total } = await this.findQuizzes({
       skip: cursor ? 1 : 0,
       take: limit,
       where: quizWhereParams,
-      include: {
+      select: {
+        publicId: true,
+        title: true,
+        description: true,
+        createdAt: true,
+        updatedAt: true,
         User: {
           select: {
             name: true,
@@ -86,7 +93,7 @@ export class QuizzesService {
       },
       cursor: cursor
         ? {
-            id: cursor,
+            publicId: cursor,
           }
         : undefined,
       orderBy: {
@@ -108,11 +115,19 @@ export class QuizzesService {
     }
   }
 
-  async findInfinityPopularQuizzes(cursor: number, limit: number) {
-    const { quizzes, total } = await this.findQuizzes({
+  async findInfinityPopularQuizzes(
+    cursor: string,
+    limit: number,
+  ): Promise<QuizInfinityResponse> {
+    const { data: quizzes, total } = await this.findQuizzes({
       skip: cursor ? 1 : 0,
       take: limit,
-      include: {
+      select: {
+        publicId: true,
+        title: true,
+        description: true,
+        createdAt: true,
+        updatedAt: true,
         User: {
           select: {
             name: true,
@@ -130,7 +145,7 @@ export class QuizzesService {
       },
       cursor: cursor
         ? {
-            id: cursor,
+            publicId: cursor,
           }
         : undefined,
       orderBy: {
@@ -170,8 +185,8 @@ export class QuizzesService {
     userId: number,
     category: string,
     search: string,
-  ) {
-    const { quizzes, total } = await this.findQuizzes({
+  ): Promise<QuizResponse> {
+    const { data: quizzes, total } = await this.findQuizzes({
       skip: offset,
       take: limit,
       orderBy: {
@@ -209,8 +224,10 @@ export class QuizzesService {
     }
   }
 
-  async findByCategory({ slug }: Prisma.CategoryWhereUniqueInput) {
-    const { quizzes, total } = await this.findQuizzes({
+  async findByCategory({
+    slug,
+  }: Prisma.CategoryWhereUniqueInput): Promise<QuizResponse> {
+    const { data: quizzes, total } = await this.findQuizzes({
       where: {
         categories: {
           some: {
@@ -226,13 +243,48 @@ export class QuizzesService {
     }
   }
 
-  async findOne(quizWhereUniqueInput: Prisma.QuizWhereUniqueInput) {
+  async findOne(
+    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+  ): Promise<Omit<Quiz, 'id' | 'userId'> | null> {
+    return await this.prismaService.quiz.findUnique({
+      where: quizWhereUniqueInput,
+      select: {
+        publicId: true,
+        title: true,
+        description: true,
+        createdAt: true,
+        updatedAt: true,
+        User: {
+          select: {
+            name: true,
+          },
+        },
+        categories: true,
+        questions: {
+          select: {
+            id: true,
+            text: true,
+            answers: {
+              select: {
+                id: true,
+                text: true,
+                isCorrect: quizWhereUniqueInput.userId ? true : false,
+              },
+            },
+          },
+        },
+      },
+    })
+  }
+
+  async findOneByUser(
+    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+  ): Promise<Quiz | null> {
     return await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
       include: {
         User: {
           select: {
-            id: true,
             name: true,
           },
         },

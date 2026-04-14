@@ -1,22 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, Result } from 'generated/prisma'
 import { PrismaService } from 'src/prisma.service'
-import { QuizzesService } from 'src/quizzes/quizzes.service'
 import { CreateResultDto } from './dto/create-result.dto'
+import { QuizzesResultResponse, ResultResponse } from 'src/types/result'
 
 @Injectable()
 export class ResultsService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly quizzesService: QuizzesService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async getQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
     { id: userId }: Prisma.UserWhereUniqueInput,
     guestId: string,
-  ) {
-    const quiz = await this.quizzesService.findOne(quizWhereUniqueInput)
+  ): Promise<ResultResponse> {
+    const quiz = await this.prismaService.quiz.findUnique({
+      where: quizWhereUniqueInput,
+    })
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!')
@@ -55,7 +54,6 @@ export class ResultsService {
 
     return {
       id,
-      userId,
       quizId,
       score,
       questions: Quiz.questions,
@@ -70,7 +68,7 @@ export class ResultsService {
       }[]
     }[],
     data: CreateResultDto,
-  ) {
+  ): number {
     const totalScore = questions.filter((question) => {
       const userAnswer = data.userAnswers.find(
         (ua) => ua.questionId === question.id,
@@ -103,7 +101,7 @@ export class ResultsService {
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
     { id: userId }: Prisma.UserWhereUniqueInput,
     data: CreateResultDto,
-  ) {
+  ): Promise<Result> {
     const quiz = await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
       include: {
@@ -158,7 +156,7 @@ export class ResultsService {
     offset: number,
     limit: number,
     { id: userId }: Prisma.UserWhereUniqueInput,
-  ) {
+  ): Promise<QuizzesResultResponse> {
     const [total, res] = await this.prismaService.$transaction([
       this.prismaService.result.count({
         where: { userId },
@@ -168,13 +166,14 @@ export class ResultsService {
         select: {
           Quiz: {
             select: {
-              id: true,
+              publicId: true,
               title: true,
             },
           },
           createdAt: true,
           updatedAt: true,
         },
+        orderBy: [{ updatedAt: 'desc' }, { createdAt: 'desc' }],
         skip: offset,
         take: limit,
       }),

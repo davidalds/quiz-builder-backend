@@ -11,6 +11,8 @@ import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from 'generated/prisma'
 import { Public } from 'src/auth/metadatas'
+import { UserDecorator } from 'src/decorators/user.decorator'
+import type { UserReq } from 'src/types/user'
 
 @Controller('users')
 export class UsersController {
@@ -21,9 +23,9 @@ export class UsersController {
     return this.UsersService.findAll()
   }
 
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<User | null> {
-    return this.UsersService.findOne({ id })
+  @Get('user')
+  async findOne(@UserDecorator() user: UserReq): Promise<User | null> {
+    return this.UsersService.findOne({ id: user.id })
   }
 
   @Public()

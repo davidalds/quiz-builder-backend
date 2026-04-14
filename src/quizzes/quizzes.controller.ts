@@ -9,14 +9,15 @@ import {
   Post,
   Put,
   Query,
-  Req,
 } from '@nestjs/common'
 import { QuizzesService } from './quizzes.service'
 import { Quiz } from 'generated/prisma'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
 import { Public } from 'src/auth/metadatas'
-import type { ReqType } from 'src/types'
+import { UserDecorator } from 'src/decorators/user.decorator'
+import type { UserReq } from 'src/types/user'
+import { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -25,11 +26,11 @@ export class QuizzesController {
   @Public()
   @Get()
   async findInfinityQuizzes(
-    @Query('cursor', new DefaultValuePipe(0), ParseIntPipe) cursor: number,
+    @Query('cursor', new DefaultValuePipe('')) cursor: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('category') category: string,
     @Query('search') search: string,
-  ) {
+  ): Promise<QuizInfinityResponse> {
     return this.quizzesService.findInfinityQuizzes(
       cursor,
       limit,
@@ -41,21 +42,24 @@ export class QuizzesController {
   @Public()
   @Get('popular')
   async findPopular(
-    @Query('cursor', new DefaultValuePipe(0), ParseIntPipe) cursor: number,
+    @Query('cursor', new DefaultValuePipe('')) cursor: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-  ): Promise<{ total: number; data: Quiz[]; nextCursor: number | undefined }> {
+  ): Promise<QuizInfinityResponse> {
     return this.quizzesService.findInfinityPopularQuizzes(cursor, limit)
   }
 
   @Public()
   @Get('categories/:slug')
-  async findByCategory(@Param('slug') slug: string) {
+  async findByCategory(@Param('slug') slug: string): Promise<QuizResponse> {
     return this.quizzesService.findByCategory({ slug })
   }
 
   @Get('dashboard')
-  async getDashboardInfo(@Req() req: ReqType) {
-    const user = req['user']
+  async getDashboardInfo(@UserDecorator() user: UserReq): Promise<{
+    totalQuizzes: number
+    totalAnsweredQuizzes: number
+    mostAnsweredQuiz: (Quiz & { _count: { results: number } }) | undefined
+  }> {
     return await this.quizzesService.getDashboardInfo(user.id)
   }
 
@@ -65,9 +69,8 @@ export class QuizzesController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('category') category: string,
     @Query('search') search: string,
-    @Req() req: ReqType,
-  ) {
-    const user = req['user']
+    @UserDecorator() user: UserReq,
+  ): Promise<QuizResponse> {
     return this.quizzesService.findByUser(
       offset,
       limit,
@@ -80,43 +83,41 @@ export class QuizzesController {
   @Post()
   async create(
     @Body() data: CreateQuizDto,
-    @Req() req: ReqType,
+    @UserDecorator() user: UserReq,
   ): Promise<Quiz> {
-    const user = req['user']
     return this.quizzesService.create(data, user.id)
   }
 
   @Public()
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Quiz | null> {
-    return this.quizzesService.findOne({ id })
+  @Get(':publicId')
+  async findOne(
+    @Param('publicId') publicId: string,
+  ): Promise<Omit<Quiz, 'id' | 'userId'> | null> {
+    return this.quizzesService.findOne({ publicId })
   }
 
   @Get('user-quizzes/:id')
   async findOneByUser(
     @Param('id', ParseIntPipe) id: number,
-    @Req() req: ReqType,
-  ) {
-    const user = req['user']
-    return this.quizzesService.findOne({ id, userId: user.id })
+    @UserDecorator() user: UserReq,
+  ): Promise<Quiz | null> {
+    return this.quizzesService.findOneByUser({ id, userId: user.id })
   }
 
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateQuizDto,
-    @Req() req: ReqType,
+    @UserDecorator() user: UserReq,
   ): Promise<Quiz> {
-    const user = req['user']
     return this.quizzesService.update({ id, userId: user.id }, data)
   }
 
   @Delete(':id')
   async remove(
-    @Param('id', ParseIntPipe) id: number,
-    @Req() req: ReqType,
+    @Param('id') id: number,
+    @UserDecorator() user: UserReq,
   ): Promise<Quiz> {
-    const user = req['user']
     return this.quizzesService.delete({ id, userId: user.id })
   }
 }

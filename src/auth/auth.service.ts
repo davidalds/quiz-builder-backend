@@ -18,6 +18,7 @@ export class AuthService {
       },
       select: {
         id: true,
+        publicId: true,
         name: true,
         email: true,
         password: true,
@@ -30,7 +31,12 @@ export class AuthService {
       const result = await bcrypt.compare(createAuthDto.password, userPassword)
 
       if (result) {
-        const payload = { id: user.id, email: user.email, name: user.name }
+        const payload = {
+          id: user.id,
+          publicId: user.publicId,
+          email: user.email,
+          name: user.name,
+        }
         return {
           access_token: await this.jwtService.signAsync(payload, {
             expiresIn: '1d',

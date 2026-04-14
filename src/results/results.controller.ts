@@ -5,13 +5,15 @@ import {
   Body,
   ParseIntPipe,
   Query,
-  Req,
   DefaultValuePipe,
 } from '@nestjs/common'
 import { ResultsService } from './results.service'
 import { CreateResultDto } from './dto/create-result.dto'
 import { Public } from 'src/auth/metadatas'
-import type { ReqType } from 'src/types'
+import { UserDecorator } from 'src/decorators/user.decorator'
+import type { UserReq } from 'src/types/user'
+import { QuizzesResultResponse, ResultResponse } from 'src/types/result'
+import { Result } from 'generated/prisma'
 
 @Controller('results')
 export class ResultsController {
@@ -20,13 +22,12 @@ export class ResultsController {
   @Public()
   @Post()
   async recordQuizScore(
-    @Query('quizId', ParseIntPipe) quizId: number,
+    @Query('quizId') publicId: string,
     @Body() data: CreateResultDto,
-    @Req() req: ReqType,
-  ) {
-    const user = req['user']
+    @UserDecorator() user: UserReq,
+  ): Promise<Result> {
     return this.resultsService.recordQuizScore(
-      { id: quizId },
+      { publicId },
       {
         ...user,
       },
@@ -38,24 +39,18 @@ export class ResultsController {
   async getQuizzesByResult(
     @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Req() req: ReqType,
-  ) {
-    const user = req['user']
+    @UserDecorator() user: UserReq,
+  ): Promise<QuizzesResultResponse> {
     return this.resultsService.getQuizzesByResult(offset, limit, { ...user })
   }
 
   @Public()
   @Get()
   async getQuizScore(
-    @Query('quizId', ParseIntPipe) quizId: number,
+    @Query('quizId') publicId: string,
     @Query('guestId') guestId: string,
-    @Req() req: ReqType,
-  ) {
-    const user = req['user']
-    return this.resultsService.getQuizScore(
-      { id: quizId },
-      { ...user },
-      guestId,
-    )
+    @UserDecorator() user: UserReq,
+  ): Promise<ResultResponse> {
+    return this.resultsService.getQuizScore({ publicId }, { ...user }, guestId)
   }
 }

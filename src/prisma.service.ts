@@ -5,7 +5,9 @@ import { PrismaClient } from 'generated/prisma'
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
     super({
-      omit: { user: { password: true } },
+      omit: {
+        user: { id: true, password: true },
+      },
     })
   }
 
