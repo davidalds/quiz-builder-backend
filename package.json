@@ -24,7 +24,8 @@
     "db:studio": "prisma studio",
     "seed:users": "tsx prisma/seed.ts users",
     "seed:quizzes": "tsx prisma/seed.ts quizzes",
-    "seed:categories": "tsx prisma/seed.ts categories"
+    "seed:categories": "tsx prisma/seed.ts categories",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -56,8 +57,10 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "jest": "^30.0.0",
     "prettier": "^3.6.2",
+    "pretty-quick": "^4.2.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
