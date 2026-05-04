@@ -118,6 +118,8 @@ export class QuizzesService {
   async findInfinityPopularQuizzes(
     cursor: string,
     limit: number,
+    category: string,
+    search: string,
   ): Promise<QuizInfinityResponse> {
     const { data: quizzes, total } = await this.findQuizzes({
       skip: cursor ? 1 : 0,
@@ -135,6 +137,27 @@ export class QuizzesService {
         },
       },
       where: {
+        categories: {
+          some: {
+            slug: category ? category : undefined,
+          },
+        },
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            User: {
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
         results: {
           some: {
             score: {
@@ -157,6 +180,27 @@ export class QuizzesService {
 
     const nextCursor = await this.handleNextCursor(quizzes, {
       where: {
+        categories: {
+          some: {
+            slug: category ? category : undefined,
+          },
+        },
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            User: {
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
         results: {
           some: {
             score: {

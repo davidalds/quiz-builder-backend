@@ -44,8 +44,15 @@ export class QuizzesController {
   async findPopular(
     @Query('cursor', new DefaultValuePipe('')) cursor: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('category') category: string,
+    @Query('search') search: string,
   ): Promise<QuizInfinityResponse> {
-    return this.quizzesService.findInfinityPopularQuizzes(cursor, limit)
+    return this.quizzesService.findInfinityPopularQuizzes(
+      cursor,
+      limit,
+      category,
+      search,
+    )
   }
 
   @Public()
