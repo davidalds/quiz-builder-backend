@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { Prisma, Result } from 'generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateResultDto } from './dto/create-result.dto'
@@ -119,6 +123,12 @@ export class ResultsService {
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!')
+    }
+
+    if (quiz.status === 'PRIVADO') {
+      throw new ForbiddenException(
+        'Não é possível enviar respostas para um quiz privado!',
+      )
     }
 
     const quizScore = this.calcQuizScore(quiz.questions, data)

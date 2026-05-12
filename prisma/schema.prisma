@@ -26,11 +26,18 @@ model User {
   results    Result[]
 }
 
+enum QuizStatus {
+  PUBLICO
+  PRIVADO
+  NAO_LISTADO
+}
+
 model Quiz {
   id          Int        @id @default(autoincrement())
   publicId    String     @unique @default(uuid())
   title       String
   description String
+  status      QuizStatus @default(PUBLICO)
   User        User       @relation(fields: [userId], references: [id])
   userId      Int
   categories  Category[]

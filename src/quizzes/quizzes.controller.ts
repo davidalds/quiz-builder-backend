@@ -6,18 +6,20 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
 } from '@nestjs/common'
 import { QuizzesService } from './quizzes.service'
-import { Quiz } from 'generated/prisma'
+import { Quiz, QuizStatus } from 'generated/prisma'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
 import { Public } from 'src/auth/metadatas'
 import { UserDecorator } from 'src/decorators/user.decorator'
 import type { UserReq } from 'src/types/user'
-import { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
+import type { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
+import { QuizStatusDto } from './dto/update-quiz-status.dto'
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -75,6 +77,7 @@ export class QuizzesController {
     @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('category') category: string,
+    @Query('status') status: QuizStatus | undefined,
     @Query('search') search: string,
     @UserDecorator() user: UserReq,
   ): Promise<QuizResponse> {
@@ -83,6 +86,7 @@ export class QuizzesController {
       limit,
       user.id,
       category,
+      status,
       search,
     )
   }
@@ -126,5 +130,17 @@ export class QuizzesController {
     @UserDecorator() user: UserReq,
   ): Promise<Quiz> {
     return this.quizzesService.delete({ id, userId: user.id })
+  }
+
+  @Patch(':id/status')
+  async changeStatus(
+    @UserDecorator() user: UserReq,
+    @Param('id') id: number,
+    @Body() data: QuizStatusDto,
+  ): Promise<Quiz> {
+    return this.quizzesService.changeStatus({
+      quizWhereUniqueInput: { id: id, userId: user.id },
+      data: { ...data },
+    })
   }
 }

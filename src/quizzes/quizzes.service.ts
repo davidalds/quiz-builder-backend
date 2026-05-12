@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { Prisma, Quiz } from 'generated/prisma'
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
+import { Prisma, Quiz, QuizStatus } from 'generated/prisma'
 import { PrismaService } from 'src/prisma.service'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
 import { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
+import { QuizStatusDto } from './dto/update-quiz-status.dto'
 
 @Injectable()
 export class QuizzesService {
@@ -52,6 +57,7 @@ export class QuizzesService {
     search: string,
   ): Promise<QuizInfinityResponse> {
     const quizWhereParams: Prisma.QuizWhereInput = {
+      status: 'PUBLICO',
       categories: {
         some: {
           slug: category ? category : undefined,
@@ -137,6 +143,7 @@ export class QuizzesService {
         },
       },
       where: {
+        status: 'PUBLICO',
         categories: {
           some: {
             slug: category ? category : undefined,
@@ -228,6 +235,7 @@ export class QuizzesService {
     limit: number,
     userId: number,
     category: string,
+    status: QuizStatus | undefined,
     search: string,
   ): Promise<QuizResponse> {
     const { data: quizzes, total } = await this.findQuizzes({
@@ -238,19 +246,18 @@ export class QuizzesService {
       },
       where: {
         userId,
+        status: {
+          equals: status,
+        },
         categories: {
           some: {
             slug: category ? category : undefined,
           },
         },
-        OR: [
-          {
-            title: {
-              contains: search,
-              mode: 'insensitive',
-            },
-          },
-        ],
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
       },
       include: {
         categories: true,
@@ -287,14 +294,23 @@ export class QuizzesService {
     }
   }
 
+  async findQuiz(
+    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
+  ): Promise<Quiz | null> {
+    return await this.prismaService.quiz.findUnique({
+      where: quizWhereUniqueInput,
+    })
+  }
+
   async findOne(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
   ): Promise<Omit<Quiz, 'id' | 'userId'> | null> {
-    return await this.prismaService.quiz.findUnique({
+    const quiz = await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
       select: {
         publicId: true,
         title: true,
+        status: true,
         description: true,
         createdAt: true,
         updatedAt: true,
@@ -319,6 +335,14 @@ export class QuizzesService {
         },
       },
     })
+
+    if (quiz?.status === 'PRIVADO') {
+      throw new ForbiddenException(
+        'Você não possui permissão para acessar o quiz!',
+      )
+    }
+
+    return quiz
   }
 
   async findOneByUser(
@@ -372,7 +396,7 @@ export class QuizzesService {
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
     data: UpdateQuizDto,
   ): Promise<Quiz> {
-    const quiz = await this.findOne(quizWhereUniqueInput)
+    const quiz = await this.findQuiz(quizWhereUniqueInput)
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!')
@@ -478,7 +502,7 @@ export class QuizzesService {
   async delete(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
   ): Promise<Quiz> {
-    const quiz = await this.findOne(quizWhereUniqueInput)
+    const quiz = await this.findQuiz(quizWhereUniqueInput)
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!')
@@ -527,5 +551,26 @@ export class QuizzesService {
       totalAnsweredQuizzes,
       mostAnsweredQuiz: mostAnsweredQuiz[0],
     }
+  }
+
+  async changeStatus({
+    quizWhereUniqueInput,
+    data,
+  }: {
+    quizWhereUniqueInput: Prisma.QuizWhereUniqueInput
+    data: QuizStatusDto
+  }): Promise<Quiz> {
+    const quiz = await this.findQuiz(quizWhereUniqueInput)
+
+    if (!quiz) {
+      throw new NotFoundException('Quiz não encontrado!')
+    }
+
+    return await this.prismaService.quiz.update({
+      where: quizWhereUniqueInput,
+      data: {
+        status: data.status,
+      },
+    })
   }
 }
