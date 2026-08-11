@@ -3,10 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
-import { Prisma, Result } from 'generated/prisma'
-import { PrismaService } from 'src/prisma.service'
+import { Prisma, Result } from '../../generated/prisma'
+import { PrismaService } from '@/prisma.service'
 import { CreateResultDto } from './dto/create-result.dto'
-import { QuizzesResultResponse, ResultResponse } from 'src/types/result'
+import { QuizzesResultResponse, ResultResponse } from '@/types/result'
 
 @Injectable()
 export class ResultsService {

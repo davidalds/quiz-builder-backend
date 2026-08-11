@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { CategoriesService } from './categories.service'
-import { Category } from 'generated/prisma'
-import { Public } from 'src/auth/metadatas'
+import { Public } from '@/auth/metadatas'
+import { Category } from '../../generated/prisma'
 
 @Public()
 @Controller('categories')

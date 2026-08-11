@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common'
 import { ResultsService } from './results.service'
 import { CreateResultDto } from './dto/create-result.dto'
-import { Public } from 'src/auth/metadatas'
-import { UserDecorator } from 'src/decorators/user.decorator'
-import type { UserReq } from 'src/types/user'
-import { QuizzesResultResponse, ResultResponse } from 'src/types/result'
-import { Result } from 'generated/prisma'
+import { Public } from '@/auth/metadatas'
+import { UserDecorator } from '@/decorators/user.decorator'
+import type { UserReq } from '@/types/user'
+import { QuizzesResultResponse, ResultResponse } from '@/types/result'
+import { Result } from '../../generated/prisma'
 
 @Controller('results')
 export class ResultsController {

@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
-import { User } from 'generated/prisma'
-import { Public } from 'src/auth/metadatas'
-import { UserDecorator } from 'src/decorators/user.decorator'
-import type { UserReq } from 'src/types/user'
+import { User } from '../../generated/prisma'
+import { Public } from '@/auth/metadatas'
+import { UserDecorator } from '@/decorators/user.decorator'
+import type { UserReq } from '@/types/user'
 
 @Controller('users')
 export class UsersController {

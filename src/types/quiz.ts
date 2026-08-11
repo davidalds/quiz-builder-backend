@@ -1,4 +1,4 @@
-import { Quiz } from 'generated/prisma'
+import { Quiz } from '../../generated/prisma'
 
 export interface QuizResponse {
   total: number

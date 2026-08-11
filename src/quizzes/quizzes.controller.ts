@@ -12,14 +12,14 @@ import {
   Query,
 } from '@nestjs/common'
 import { QuizzesService } from './quizzes.service'
-import { Quiz, QuizStatus } from 'generated/prisma'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
-import { Public } from 'src/auth/metadatas'
-import { UserDecorator } from 'src/decorators/user.decorator'
-import type { UserReq } from 'src/types/user'
-import type { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
 import { QuizStatusDto } from './dto/update-quiz-status.dto'
+import { Public } from '@/auth/metadatas'
+import { QuizInfinityResponse, QuizResponse } from '@/types/quiz'
+import type { UserReq } from '@/types/user'
+import { UserDecorator } from '@/decorators/user.decorator'
+import { Quiz, QuizStatus } from '../../generated/prisma'
 
 @Controller('quizzes')
 export class QuizzesController {

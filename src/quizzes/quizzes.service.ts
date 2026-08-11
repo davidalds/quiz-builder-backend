@@ -3,12 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
-import { Prisma, Quiz, QuizStatus } from 'generated/prisma'
-import { PrismaService } from 'src/prisma.service'
 import { CreateQuizDto } from './dto/create-quiz.dto'
 import { UpdateQuizDto } from './dto/update-quiz.dto'
-import { QuizInfinityResponse, QuizResponse } from 'src/types/quiz'
 import { QuizStatusDto } from './dto/update-quiz-status.dto'
+import { PrismaService } from '@/prisma.service'
+import { QuizInfinityResponse, QuizResponse } from '@/types/quiz'
+import { Prisma, Quiz, QuizStatus } from '../../generated/prisma'
 
 @Injectable()
 export class QuizzesService {
