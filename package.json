@@ -101,9 +101,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "engines": {
-      "node": ">=22.19.0"
-    }
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=22.19.0"
   }
 }
