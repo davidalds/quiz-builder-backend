@@ -1,10 +1,11 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { Request } from 'express'
-import { UserReq } from '@/types/user'
+import { JwtToken } from '@/types/user'
 
 export const UserDecorator = createParamDecorator(
   (_, context: ExecutionContext) => {
-    const req = context.switchToHttp().getRequest<Request & { user: UserReq }>()
+    const req = context
+      .switchToHttp()
+      .getRequest<Request & { user: JwtToken }>()
 
     return req['user']
   },

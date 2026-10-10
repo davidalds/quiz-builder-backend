@@ -12,7 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { User } from '../../generated/prisma'
 import { Public } from '@/auth/metadatas'
 import { UserDecorator } from '@/decorators/user.decorator'
-import type { UserReq } from '@/types/user'
+import type { JwtToken } from '@/types/user'
 
 @Controller('users')
 export class UsersController {
@@ -24,7 +24,7 @@ export class UsersController {
   }
 
   @Get('user')
-  async findOne(@UserDecorator() user: UserReq): Promise<User | null> {
+  async findOne(@UserDecorator() user: JwtToken): Promise<User | null> {
     return this.UsersService.findOne({ id: user.id })
   }
 

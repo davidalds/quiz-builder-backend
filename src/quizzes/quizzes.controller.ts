@@ -17,7 +17,7 @@ import { UpdateQuizDto } from './dto/update-quiz.dto'
 import { QuizStatusDto } from './dto/update-quiz-status.dto'
 import { Public } from '@/auth/metadatas'
 import { QuizInfinityResponse, QuizResponse } from '@/types/quiz'
-import type { UserReq } from '@/types/user'
+import type { JwtToken } from '@/types/user'
 import { UserDecorator } from '@/decorators/user.decorator'
 import { Quiz, QuizStatus } from '../../generated/prisma'
 
@@ -64,7 +64,7 @@ export class QuizzesController {
   }
 
   @Get('dashboard')
-  async getDashboardInfo(@UserDecorator() user: UserReq): Promise<{
+  async getDashboardInfo(@UserDecorator() user: JwtToken): Promise<{
     totalQuizzes: number
     totalAnsweredQuizzes: number
     mostAnsweredQuiz: (Quiz & { _count: { results: number } }) | undefined
@@ -79,7 +79,7 @@ export class QuizzesController {
     @Query('category') category: string,
     @Query('status') status: QuizStatus | undefined,
     @Query('search') search: string,
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
   ): Promise<QuizResponse> {
     return this.quizzesService.findByUser(
       offset,
@@ -94,7 +94,7 @@ export class QuizzesController {
   @Post()
   async create(
     @Body() data: CreateQuizDto,
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
   ): Promise<Quiz> {
     return this.quizzesService.create(data, user.id)
   }
@@ -110,7 +110,7 @@ export class QuizzesController {
   @Get('user-quizzes/:id')
   async findOneByUser(
     @Param('id', ParseIntPipe) id: number,
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
   ): Promise<Quiz | null> {
     return this.quizzesService.findOneByUser({ id, userId: user.id })
   }
@@ -119,7 +119,7 @@ export class QuizzesController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateQuizDto,
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
   ): Promise<Quiz> {
     return this.quizzesService.update({ id, userId: user.id }, data)
   }
@@ -127,14 +127,14 @@ export class QuizzesController {
   @Delete(':id')
   async remove(
     @Param('id') id: number,
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
   ): Promise<Quiz> {
     return this.quizzesService.delete({ id, userId: user.id })
   }
 
   @Patch(':id/status')
   async changeStatus(
-    @UserDecorator() user: UserReq,
+    @UserDecorator() user: JwtToken,
     @Param('id') id: number,
     @Body() data: QuizStatusDto,
   ): Promise<Quiz> {

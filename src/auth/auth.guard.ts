@@ -1,69 +1,32 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-import { jwtConstant } from './constants'
-import { Request } from 'express'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { IS_PUBLIC_KEY } from './metadatas'
+import { AuthGuard } from '@nestjs/passport'
+import { Request } from 'express'
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(
-    private readonly jwtService: JwtService,
-    private readonly reflector: Reflector,
-  ) {}
+export class JwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
+  constructor(private readonly reflector: Reflector) {
+    super()
+  }
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext) {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ])
 
-    const request = context.switchToHttp().getRequest<Request>()
-    const token = this.extractTokenFromHeader(request)
+    const req = context.switchToHttp().getRequest<Request>()
 
-    if (token) {
-      try {
-        const payload: {
-          id: number
-          publicId: string
-          email: string
-          name: string
-        } = await this.jwtService.verifyAsync(token, {
-          secret: jwtConstant.secret,
-        })
+    const path = req.path
 
-        request['user'] = payload
-        return true
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        if (isPublic) return true
+    const { accessToken } = req.cookies
 
-        throw new UnauthorizedException('Token inválido')
-      }
-    } else {
+    if (path !== '/results') {
+      if (isPublic && accessToken) return true
       if (isPublic) return true
-
-      throw new UnauthorizedException('Token não informado/mal formatado')
     }
-  }
 
-  private extractTokenFromHeader(req: Request) {
-    const authToken = req.headers.authorization
-
-    if (authToken) {
-      const token = authToken.split(' ')
-
-      if (token.length === 2) {
-        if (token[0].toLowerCase() === 'bearer') {
-          return token[1]
-        }
-      }
-    }
-    return null
+    return super.canActivate(context)
   }
 }
