@@ -4,11 +4,17 @@ import { CreateAuthDto } from './dto/create-auth.dto'
 import { Public } from './metadatas'
 import { RequestCookieKeys } from '../types/requestCookieType'
 import { Cookies } from '@/decorators/cookie.decorator'
-import type { Response } from 'express'
+import type { CookieOptions, Response } from 'express'
 
 @Public()
 @Controller('auth')
 export class AuthController {
+  private readonly cookieOptions: CookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  }
+
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
@@ -19,17 +25,9 @@ export class AuthController {
     const { access_token, refresh_token } =
       await this.authService.signIn(createAuthDto)
 
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-    })
+    res.cookie('access_token', access_token, this.cookieOptions)
 
-    res.cookie('refresh_token', refresh_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-    })
+    res.cookie('refresh_token', refresh_token, this.cookieOptions)
   }
 
   @Post('refresh')
@@ -46,17 +44,9 @@ export class AuthController {
     const { access_token, refresh_token: newRefreshToken } =
       await this.authService.refreshToken(refresh_token)
 
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-    })
+    res.cookie('access_token', access_token, this.cookieOptions)
 
-    res.cookie('refresh_token', newRefreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-    })
+    res.cookie('refresh_token', newRefreshToken, this.cookieOptions)
   }
 
   @Post('logout')
