@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Query,
   DefaultValuePipe,
+  Req,
   NotFoundException,
 } from '@nestjs/common'
 import { ResultsService } from './results.service'
@@ -17,6 +18,7 @@ import { QuizzesResultResponse, ResultResponse } from '@/types/result'
 import { Result } from '../../generated/prisma'
 import { RequestCookieKeys } from '@/types/requestCookieType'
 import { Cookies } from '@/decorators/cookie.decorator'
+import type { Request } from 'express'
 
 @Controller('results')
 export class ResultsController {
@@ -25,16 +27,23 @@ export class ResultsController {
   @Public()
   @Post()
   async recordQuizScore(
+    @Req() req: Request,
     @Query('quizId') publicId: string,
     @Body() data: CreateResultDto,
     @UserDecorator() user: JwtToken,
   ): Promise<Result> {
+    const { guestId } = req.cookies
+
+    if (!user && !guestId) {
+      throw new NotFoundException('Identificador de usuário não encontrado!')
+    }
+
     return this.resultsService.recordQuizScore(
       { publicId },
       {
         ...user,
       },
-      data,
+      { ...data, guestId: guestId as string },
     )
   }
 
@@ -55,10 +64,6 @@ export class ResultsController {
     @UserDecorator() user: JwtToken,
   ): Promise<ResultResponse> {
     const { guestId } = cookies
-
-    if (!guestId) {
-      throw new NotFoundException('Id de visitante não encontrado!')
-    }
 
     return this.resultsService.getQuizScore({ publicId }, { ...user }, guestId)
   }

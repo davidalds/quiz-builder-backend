@@ -20,11 +20,16 @@ export class JwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
 
     const path = req.path
 
-    const { accessToken } = req.cookies
+    const { access_token } = req.cookies
 
-    if (path !== '/results') {
-      if (isPublic && accessToken) return true
-      if (isPublic) return true
+    if (path === '/results') {
+      if (access_token) {
+        return super.canActivate(context)
+      }
+    }
+
+    if (isPublic) {
+      return true
     }
 
     return super.canActivate(context)

@@ -15,7 +15,7 @@ export class ResultsService {
   async getQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
     { id: userId }: Prisma.UserWhereUniqueInput,
-    guestId: string,
+    guestId?: string,
   ): Promise<ResultResponse> {
     const quiz = await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,
@@ -104,7 +104,7 @@ export class ResultsService {
   async recordQuizScore(
     quizWhereUniqueInput: Prisma.QuizWhereUniqueInput,
     { id: userId }: Prisma.UserWhereUniqueInput,
-    data: CreateResultDto,
+    data: CreateResultDto & { guestId: string },
   ): Promise<Result> {
     const quiz = await this.prismaService.quiz.findUnique({
       where: quizWhereUniqueInput,

@@ -2,9 +2,7 @@ import { Type } from 'class-transformer'
 import {
   ArrayMinSize,
   IsArray,
-  IsNotEmpty,
   IsNumber,
-  IsString,
   ValidateNested,
 } from 'class-validator'
 
@@ -24,8 +22,4 @@ export class CreateResultDto {
   })
   @Type(() => userAnswer)
   userAnswers: userAnswer[]
-
-  @IsNotEmpty({ message: 'Identificador do visitante é obrigatório.' })
-  @IsString({ message: 'Identificador do visitante deve ser textual.' })
-  guestId: string
 }
